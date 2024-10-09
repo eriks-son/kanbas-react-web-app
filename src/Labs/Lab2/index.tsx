@@ -13,9 +13,15 @@ import Float from "./Float";
 import GridLayout from "./GridLayout";
 import Flex from "./Flex";
 import ReactIconsSampler from "./ReactIcons";
+import BootstrapGrids from "./BootstrapGrids";
+import ScreenSizeLabel from "./ScreenSizeLabel";
+import BoostrapTables from "./BootstrapTables";
+import BoostrapLists from "./BootstrapLists";
+import BootstrapForms from "./BootstrapForms";
+import BoostrapNavigation from "./BoostrapNavigation";
 export default function Lab2() {
   return (
-    <div id="wd-lab2">
+    <div id="wd-lab2" className="container">
       <h2>Lab 2</h2>
       <h3>Styling with the STYLE attribute</h3>
       <p>
@@ -96,6 +102,18 @@ export default function Lab2() {
       <Flex />
 
       <ReactIconsSampler />
+
+      <BootstrapGrids />
+
+      <ScreenSizeLabel />
+
+      <BoostrapTables />
+
+      <BoostrapLists />
+
+      <BootstrapForms />
+
+      <BoostrapNavigation />
     </div>
   )
 }
