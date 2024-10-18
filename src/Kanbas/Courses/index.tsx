@@ -11,23 +11,21 @@ export default function Courses() {
     <div id="wd-courses">
       <h2>Course 1234</h2>
       <hr />
-      <table>
-        <tr>
-          <td valign="top">
-            <CoursesNavigation />
-          </td>
-          <td valign="top">
-            <Routes>
-              <Route path="/" element={<Navigate to="Home" />} />
-              <Route path="Home" element={<Home />} />
-              <Route path="Modules" element={<Modules />} />
-              <Route path="Assignments" element={<Assignments />} />
-              <Route path="Assignments/123" element={<AssignmentEditor />} />
-              <Route path="People" element={<PeopleTable />} />
-            </Routes>
-          </td>
-        </tr>
-      </table>
+      <div className="row">
+        <div className="col-2">
+          <CoursesNavigation />
+        </div>
+        <div className="col">
+          <Routes>
+            <Route path="/" element={<Navigate to="Home" />} />
+            <Route path="Home" element={<Home />} />
+            <Route path="Modules" element={<Modules />} />
+            <Route path="Assignments" element={<Assignments />} />
+            <Route path="Assignments/123" element={<AssignmentEditor />} />
+            <Route path="People" element={<PeopleTable />} />
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 }
