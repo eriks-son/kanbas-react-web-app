@@ -1,23 +1,24 @@
+import { useParams } from "react-router";
+import { assignments } from "../../Database";
+import { Link } from "react-router-dom";
+
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const assignment = assignments.find((assignment: any) => assignment._id === aid && assignment.course === cid);
   return (
     <div id="wd-assignments-editor" className="p-3">
       <div className="row mb-3">
         <label className="col-form-label" htmlFor="wd-name">Assignment Name</label>
-        <input id="wd-name" className="form-control" value="A1 - ENV + HTML" />
+        <input id="wd-name" className="form-control" value={assignment?.title} />
       </div>
       <div className="row mb-3">
         <textarea className="form-control" id="wd-description">
-          The assignment is available online. Submit a link to the landing page
-          of your Web application running on Netlify. The landing page
-          should include the following: Your full name and section Links to 
-          each of the lab assignemnts Link to the Kanbas application Links
-          to all relevant source code repositories The Kanbas application should 
-          include a link to navigate back to the landing page.
+          {assignment?.description}
         </textarea>
       </div>
       <div className="row mb-3">
         <label htmlFor="wd-points" className="col">Points</label>
-        <input id="wd-points" className="form-control col" value={100} />
+        <input id="wd-points" className="form-control col" value={assignment?.points} />
       </div>
       <div className="row mb-3">
         <label htmlFor="wd-group" className="col">Assignment Group</label>
@@ -78,25 +79,31 @@ export default function AssignmentEditor() {
           <h5 className="mb-3">Assign to</h5>
           <input className="form-control mb-3" value="Everyone" />
           <h5 className="mb-3">Due</h5>
-          <input className="form-control mb-3" value="2024-05-13" type="date" />
+          <input className="form-control mb-3" value={assignment?.dueDate} type="date" />
           <div className="row">
             <div className="col">
               <h5>Available from</h5>
-              <input className="form-control" value="2024-05-06" type="date" />
+              <input className="form-control" value={assignment?.availableDate} type="date" />
             </div>
             <div className="col">
               <h5>Until</h5>
-              <input className="form-control" value="2024-05-20" type="date" />
+              <input className="form-control" type="date" />
             </div>
           </div>
         </div>
       </div>
       <div className="row mb-3 float-end">
-        <button id="wd-add-group-btn" className="btn btn-lg btn-secondary me-1 col">
-          Cancel
+        <button className="btn btn-lg btn-secondary me-1 col">
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`}
+          className="text-decoration-none text-reset">
+            Cancel
+          </Link>
         </button>
-        <button id="wd-add-assignment-btn" className="btn btn-lg btn-danger me-1 col">
-          Save
+        <button className="btn btn-lg btn-danger me-1 col">
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`}
+          className="text-decoration-none text-reset">
+            Save
+          </Link>
         </button>
       </div>
     </div>
