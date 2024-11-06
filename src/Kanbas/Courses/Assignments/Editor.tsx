@@ -1,24 +1,32 @@
 import { useParams } from "react-router";
-import { assignments } from "../../Database";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAssignment } from "./reducer";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const assignment = assignments.find((assignment: any) => assignment._id === aid && assignment.course === cid);
+  const dispatch = useDispatch();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  let assignment = assignments.find((a: any) => a.course === cid && a._id === aid) || { course: cid };
+  const submit = () => {
+    dispatch(updateAssignment(assignment));
+  }
   return (
     <div id="wd-assignments-editor" className="p-3">
       <div className="row mb-3">
         <label className="col-form-label" htmlFor="wd-name">Assignment Name</label>
-        <input id="wd-name" className="form-control" value={assignment?.title} />
+        <input id="wd-name" className="form-control"
+        defaultValue={assignment?.title} onChange={(e) => assignment = {...assignment, title: e.target.value}} />
       </div>
       <div className="row mb-3">
-        <textarea className="form-control" id="wd-description">
+        <textarea className="form-control" id="wd-description" onChange={(e) => assignment.description = e.target.value}>
           {assignment?.description}
         </textarea>
       </div>
       <div className="row mb-3">
         <label htmlFor="wd-points" className="col">Points</label>
-        <input id="wd-points" className="form-control col" value={assignment?.points} />
+        <input id="wd-points" className="form-control col" 
+        defaultValue={assignment?.points} onChange={(e) => assignment.points = e.target.value} />
       </div>
       <div className="row mb-3">
         <label htmlFor="wd-group" className="col">Assignment Group</label>
@@ -79,11 +87,13 @@ export default function AssignmentEditor() {
           <h5 className="mb-3">Assign to</h5>
           <input className="form-control mb-3" value="Everyone" />
           <h5 className="mb-3">Due</h5>
-          <input className="form-control mb-3" value={assignment?.dueDate} type="date" />
+          <input className="form-control mb-3" defaultValue={assignment?.dueDate}
+          onChange={(e) => assignment.dueDate = e.target.value} type="date" />
           <div className="row">
             <div className="col">
               <h5>Available from</h5>
-              <input className="form-control" value={assignment?.availableDate} type="date" />
+              <input className="form-control" defaultValue={assignment?.availableDate}
+              onChange={(e) => assignment.availableDate = e.target.value} type="date" />
             </div>
             <div className="col">
               <h5>Until</h5>
