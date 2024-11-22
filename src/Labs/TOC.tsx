@@ -42,7 +42,13 @@ export default function TOC() {
         <Link id="wd-k" className="nav-link" to="/Kanbas">Kanbas</Link>
       </li>
       <li className="nav-item">
-        <Link id="wd-k" className="nav-link" to="https://github.com/eriks-son/kanbas-react-web-app" target="_blank">GitHub Repo</Link>
+        <Link id="wd-r" className="nav-link" to="https://github.com/eriks-son/kanbas-react-web-app" target="_blank">React Repo</Link>
+      </li>
+      <li className="nav-item">
+        <Link id="wd-n" className="nav-link" to="https://github.com/eriks-son/kanbas-node-server-app" target="_blank">Node Repo</Link>
+      </li>
+      <li className="nav-item">
+        <Link id="wd-s" className="nav-link" to={process.env.REACT_APP_REMOTE_SERVER as string} target="_blank">Node Server</Link>
       </li>
     </ul>
   )
