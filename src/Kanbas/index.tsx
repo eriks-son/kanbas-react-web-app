@@ -18,10 +18,11 @@ export default function Kanbas() {
     _id: "1234", name: "New Course", number: "New Number",
     startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
   });
+  const [enrolling, setEnrolling] = useState(false);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const fetchCourses = async () => {
     try {
-      const courses = await userClient.findMyCourses();
+      const courses = enrolling ? await userClient.fetchCoursesWithEnrollments() : await userClient.findMyCourses();
       setCourses(courses);
     } catch (error) {
       console.error(error);
@@ -29,7 +30,7 @@ export default function Kanbas() {
   };
   useEffect(() => {
     fetchCourses();
-  }, [currentUser]);
+  }, [currentUser, enrolling]);
 
   const addNewCourse = async () => {
     const newCourse = await userClient.createCourse(course);
@@ -61,10 +62,13 @@ export default function Kanbas() {
               <Dashboard
                 courses={courses}
                 course={course}
+                enrolling={enrolling}
                 setCourse={setCourse}
                 addNewCourse={addNewCourse}
                 deleteCourse={deleteCourse}
                 updateCourse={updateCourse}
+                setEnrolling={setEnrolling}
+                setCourses={setCourses}
               />
             </ProtectedRoute>
           } />

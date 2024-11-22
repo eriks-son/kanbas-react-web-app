@@ -1,15 +1,26 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAssignment } from "./reducer";
+import { addAssignment, updateAssignment } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   let assignment = assignments.find((a: any) => a.course === cid && a._id === aid) || { course: cid };
-  const submit = () => {
-    dispatch(updateAssignment(assignment));
+  const submit = async () => {
+    if (!cid) return;
+    if (assignment._id) {
+      const newAssignment = await assignmentsClient.updateAssignment(assignment);
+      dispatch(updateAssignment(newAssignment));
+    } else {
+      const newAssignment = await coursesClient.createAssignmentForCourse(cid, assignment);
+      dispatch(addAssignment(newAssignment));
+    }
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
   }
   return (
     <div id="wd-assignments-editor" className="p-3">
@@ -109,11 +120,9 @@ export default function AssignmentEditor() {
             Cancel
           </Link>
         </button>
-        <button className="btn btn-lg btn-danger me-1 col">
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`}
-          className="text-decoration-none text-reset">
-            Save
-          </Link>
+        <button className="btn btn-lg btn-danger me-1 col"
+        onClick={submit}>
+          Save
         </button>
       </div>
     </div>

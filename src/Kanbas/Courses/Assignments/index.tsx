@@ -4,12 +4,29 @@ import AssignmentControlButtons from "./AssignmentControlButtons";
 import LessonControlButtons from "./LessonControlButtons";
 import { BiPencil } from "react-icons/bi";
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
+import { deleteAssignment, setAssignments } from "./reducer";
+import { useEffect } from "react";
+import { FaTrash } from "react-icons/fa";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments;
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
+  const fetchAssignments = async () => {
+    const modules = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(modules));
+  };
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
   return (
     <div id="wd-assignments">
       <AssignmentsControls /><br /><br /><br /><br />
@@ -25,11 +42,14 @@ export default function Assignments() {
         {assignments.filter((assignment: any) => assignment.course === cid)
         .map((assignment: any) => (
           <li className="wd-assignment list-group-item pe-0 ps-0 row">
-            <Link to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-            className="wd-assignment-link row align-items-center text-reset text-decoration-none">
+            <div className="wd-assignment-link row align-items-center">
               <div className="col">
+                <FaTrash className="text-danger me-2 mb-1" onClick={() => removeAssignment(assignment._id)} />
                 <BsGripVertical className="me-2 fs-3" />
-                <BiPencil className="me-2 fs-3" />
+                <Link to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+            className="wd-assignment-link align-items-center text-reset text-decoration-none">
+                  <BiPencil className="me-2 fs-3" />
+                </Link>
               
               </div>
                 <div className="text-black col-8">
@@ -43,8 +63,7 @@ export default function Assignments() {
               <div className="col fs-5">
                 <LessonControlButtons />
               </div>
-            </Link>
-            
+            </div>
           </li>
         ))}
       </ul>
