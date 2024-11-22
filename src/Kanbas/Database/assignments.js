@@ -1,4 +1,4 @@
-[
+export default [
     { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101", "description": "Test description for propulsion assignment", "points": 100, "dueDate": "2024-10-25", "availableDate": "2024-11-01" },
     { "_id": "A102", "title": "Combustion Analysis", "course": "RS101", "description": "Learn about combustion analysis", "points": 50, "dueDate": "2024-11-02", "availableDate": "2024-11-21" },
     { "_id": "A103", "title": "Nozzle Design Project", "course": "RS101", "description": "Design a nozzle and present your findings", "points": 200, "dueDate": "2024-11-25", "availableDate": "2024-12-01" },
