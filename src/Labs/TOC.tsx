@@ -39,7 +39,7 @@ export default function TOC() {
         </Link>
       </li>
       <li className="nav-item">
-        <Link id="wd-k" className="nav-link" to="/Kanbas">Kanbas</Link>
+        <Link id="wd-k" className="nav-link" to="/Kanbas/Account/Signin">Kanbas</Link>
       </li>
       <li className="nav-item">
         <Link id="wd-r" className="nav-link" to="https://github.com/eriks-son/kanbas-react-web-app" target="_blank">React Repo</Link>

@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import * as userClient from "./Account/client";
 
 export default function Dashboard({
-  courses, course, enrolling, setCourse, addNewCourse, deleteCourse, updateCourse, setEnrolling, setCourses,
+  courses, course, enrolling, setCourse, addNewCourse, deleteCourse, updateCourse, setEnrolling, setCourses, updateEnrollment,
 }: {
   courses: any[]; course: any; enrolling: boolean; setCourse: (course: any) => void;
   addNewCourse: () => void; deleteCourse: (course: any) => void;
-  updateCourse: () => void; setEnrolling: (enrolling: any) => void; setCourses: (courses: any[]) => void
+  updateCourse: () => void; setEnrolling: (enrolling: any) => void; setCourses: (courses: any[]) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const enrollUser = async (courseId: string) => {
@@ -20,8 +21,9 @@ export default function Dashboard({
   };
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-      {currentUser.role === "FACULTY" ? (<div>
+      <h1 id="wd-dashboard-title">Dashboard
+        </h1> <hr />
+      {currentUser.role === "FACULTY" || currentUser.role === "ADMIN" ? (<div>
         <h5>
         New Course
         <button className="btn btn-primary float-end"
@@ -45,7 +47,9 @@ export default function Dashboard({
       <input value={course.endDate} type="date" className="form-control mb-2"
       onChange={(e) => setCourse({ ...course, endDate: e.target.value })} />
       </div>) : (
-        <button className="btn btn-primary float-end" onClick={() => setEnrolling(!enrolling)}>Enrollments</button>
+        <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
+        {enrolling ? "My Courses" : "All Courses"}
+      </button>
       )
       
       }
@@ -68,21 +72,19 @@ export default function Dashboard({
 
                 </Link>
                     <div className="row">
-                      <button className="col-3 btn btn-primary">Go</button>
+                      <Link className="col-3" to={`/Kanbas/Courses/${course._id}/Home`}>
+                        <button className="btn btn-primary">Go</button>
+                      </Link>
                       {enrolling ? (
-                        course.enrolled ? (
-                          <div className="col pe-0">
-                            <button onClick={() => unenrollUser(course._id)} className="btn btn-danger float-end">
-                              Unenroll
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="col pe-0">
-                            <button onClick={() => enrollUser(course._id)} className="btn btn-success float-end">
-                              Enroll
-                            </button>
-                          </div>
-                        )
+                        <div className="col">
+                          <button onClick={(event) => {
+                                    event.preventDefault();
+                                    updateEnrollment(course._id, !course.enrolled);
+                                  }}
+                                  className={`btn ${ course.enrolled ? "btn-danger" : "btn-success" } float-end`} >
+                            {course.enrolled ? "Unenroll" : "Enroll"}
+                          </button>
+                        </div>
                       ) : (<div className="col">
                         <button onClick={(event) => {
                           event.preventDefault();
