@@ -1,4 +1,3 @@
-import { courses } from "../Database";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
