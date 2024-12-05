@@ -99,12 +99,12 @@ export default function AssignmentEditor() {
           <input className="form-control mb-3" value="Everyone" />
           <h5 className="mb-3">Due</h5>
           <input className="form-control mb-3" defaultValue={assignment?.dueDate}
-          onChange={(e) => assignment.dueDate = e.target.value} type="date" />
+          onChange={(e) => assignment = {...assignment, dueDate: e.target.value}} type="date" />
           <div className="row">
             <div className="col">
               <h5>Available from</h5>
               <input className="form-control" defaultValue={assignment?.availableDate}
-              onChange={(e) => assignment.availableDate = e.target.value} type="date" />
+              onChange={(e) => assignment = {...assignment, availableDate: e.target.value}} type="date" />
             </div>
             <div className="col">
               <h5>Until</h5>
