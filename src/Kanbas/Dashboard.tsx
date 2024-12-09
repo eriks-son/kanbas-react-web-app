@@ -11,14 +11,6 @@ export default function Dashboard({
   updateEnrollment: (courseId: string, enrolled: boolean) => void
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const enrollUser = async (courseId: string) => {
-    const newCourses = await userClient.enrollUserInCourse(courseId) as any;
-    setCourses(newCourses);
-  };
-  const unenrollUser = async (courseId: string) => {
-    const newCourses = await userClient.unenrollUserInCourse(courseId) as any;
-    setCourses(newCourses);
-  };
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard
@@ -85,7 +77,7 @@ export default function Dashboard({
                             {course.enrolled ? "Unenroll" : "Enroll"}
                           </button>
                         </div>
-                      ) : (<div className="col">
+                      ) : (currentUser.role === "FACULTY" || currentUser.role === "ADMIN") && (<div className="col">
                         <button onClick={(event) => {
                           event.preventDefault();
                           deleteCourse(course._id);
